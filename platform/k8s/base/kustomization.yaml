@@ -12,3 +12,5 @@ resources:
   - submission-service.yaml
   - rbac/role.yaml
   - rbac/rolebinding.yaml
+  - rbac/serviceaccount.yaml
+  - rbac/serviceaccount-rolebinding.yaml
