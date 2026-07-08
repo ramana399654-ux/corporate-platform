@@ -10,3 +10,5 @@ resources:
   - orsted-ingress.yaml
   - submission-deployment.yaml
   - submission-service.yaml
+  - rbac/role.yaml
+  - rbac/rolebinding.yaml
