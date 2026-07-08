@@ -18,9 +18,14 @@ spec:
         app: correlation-api
 
     spec:
+
+      imagePullSecrets:
+      - name: acr-secret
+
+
       containers:
       - name: correlation-api
-        image: "{{ .Values.images.correlation.repository }}:{{ .Values.images.correlation.tag }}"
+        image: "{{ .Values.correlation.image.repository }}:{{ .Values.correlation.image.tag }}"
         ports:
         - containerPort: {{ .Values.service.targetPort }}
 
@@ -47,8 +52,13 @@ spec:
         app: submission-api
 
     spec:
+
+      imagePullSecrets:
+      - name: acr-secret
+
+
       containers:
       - name: submission-api
-        image: "{{ .Values.images.submission.repository }}:{{ .Values.images.submission.tag }}"
+        image: "{{ .Values.submission.image.repository }}:{{ .Values.submission.image.tag }}"
         ports:
         - containerPort: {{ .Values.service.targetPort }}

@@ -1,11 +1,12 @@
 namespace: orsted-lab
 
-images:
-  correlation:
+correlation:
+  image:
     repository: orstedlabacr.azurecr.io/correlation-api
     tag: v1
 
-  submission:
+submission:
+  image:
     repository: orstedlabacr.azurecr.io/submission-api
     tag: v1
 
