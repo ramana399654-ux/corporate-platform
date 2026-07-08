@@ -17,6 +17,12 @@ jobs:
     - name: Install Helm
       uses: azure/setup-helm@v4
 
+    - name: Configure Kubernetes
+      run: |
+        mkdir -p ~/.kube
+        echo "${{ secrets.KUBE_CONFIG }}" > ~/.kube/config
+        kubectl get nodes
+
     - name: Deploy Helm chart
       run: |
         helm upgrade --install corporate-app \
