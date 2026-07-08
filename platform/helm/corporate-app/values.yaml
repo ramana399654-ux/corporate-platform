@@ -8,7 +8,7 @@ correlation:
 submission:
   image:
     repository: orstedlabacr.azurecr.io/submission-api
-    tag: 131660daff54348e930cb739d26f0ce903962e71
+    tag: v1
 
 replicaCount: 2
 
