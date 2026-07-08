@@ -1,0 +1,12 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - correlation-deployment.yaml
+  - correlation-service.yaml
+  - nginx-config.yaml
+  - nginx-deployment.yaml
+  - nginx-service.yaml
+  - orsted-ingress.yaml
+  - submission-deployment.yaml
+  - submission-service.yaml
