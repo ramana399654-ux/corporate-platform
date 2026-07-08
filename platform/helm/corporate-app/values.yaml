@@ -3,7 +3,7 @@ namespace: orsted-lab
 correlation:
   image:
     repository: orstedlabacr.azurecr.io/correlation-api
-    tag: 442834497f980be1d9a1f9d9fa645ac1da835fc1
+    tag: 5248a4110cbd8a22f5b5ad3e4e476b6c066b11da
 
 submission:
   image:
