@@ -39,3 +39,14 @@ jobs:
 
         docker push \
         orstedlabacr.azurecr.io/correlation-api:${IMAGE_TAG}
+
+    - name: Update Helm image tag
+      run: |
+        sed -i "s/tag: v1/tag: ${{ github.sha }}/" platform/helm/corporate-app/values.yaml
+
+        git config user.name "github-actions"
+        git config user.email "github-actions@github.com"
+
+        git add platform/helm/corporate-app/values.yaml
+        git commit -m "Update image tag to ${{ github.sha }}"
+        git push
