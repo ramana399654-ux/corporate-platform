@@ -1,0 +1,72 @@
+name: Intelligent Multi-App CI/CD
+
+on:
+  push:
+    branches: [ main, feature/cicd-setup ]
+    paths:
+      - 'correlation-api/**'
+      - 'submission-api/**'
+
+jobs:
+  # ----------------------------------------------------
+  # JOB 1: CORRELATION API PIPELINE
+  # ----------------------------------------------------
+  deploy-correlation:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Check for Changes
+        id: filter
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            correlation:
+              - 'correlation-api/**'
+
+      - name: Log in to Azure Container Registry
+        if: steps.filter.outputs.correlation == 'true'
+        uses: azure/docker-login@v2
+        with:
+          login-server: yourregistryname.azurecr.io
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
+
+      - name: Build and Push Correlation Image
+        if: steps.filter.outputs.correlation == 'true'
+        run: |
+          docker build -t orstedlabacr.azurecr.io/correlation-api:${{ github.run_number }} ./correlation-api
+          docker push orstedlabacr.azurecr.io/correlation-api:${{ github.run_number }}
+
+  # ----------------------------------------------------
+  # JOB 2: SUBMISSION API PIPELINE
+  # ----------------------------------------------------
+  deploy-submission:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Check for Changes
+        id: filter
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            submission:
+              - 'submission-api/**'
+
+      - name: Log in to Azure Container Registry
+        if: steps.filter.outputs.submission == 'true'
+        uses: azure/docker-login@v2
+        with:
+          login-server: yourregistryname.azurecr.io
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
+
+      - name: Build and Push Submission Image
+        if: steps.filter.outputs.submission == 'true'
+        run: |
+          docker build -t orstedlabacr.azurecr.io/submission-api:${{ github.run_number }} ./submission-api
+          docker push orstedlabacr.azurecr.io/submission-api:${{ github.run_number }}
+
