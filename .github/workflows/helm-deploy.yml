@@ -1,4 +1,4 @@
-name: Helm Deploy
+name: Build and Push Image
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - master
 
 jobs:
-  deploy:
+  build:
     runs-on: self-hosted
 
     steps:
@@ -14,17 +14,26 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Install Helm
-      uses: azure/setup-helm@v4
+    - name: Azure Login
+      uses: azure/login@v2
+      with:
+        creds: |
+          {
+            "clientId": "${{ secrets.AZURE_CLIENT_ID }}",
+            "clientSecret": "${{ secrets.AZURE_CLIENT_SECRET }}",
+            "subscriptionId": "8b322099-2467-4a7f-a427-003c3dabed69",
+            "tenantId": "${{ secrets.AZURE_TENANT_ID }}"
+          }
 
-    - name: Configure Kubernetes
+    - name: Login to ACR
       run: |
-        mkdir -p ~/.kube
-        echo "${{ secrets.KUBE_CONFIG }}" > ~/.kube/config
-        kubectl get nodes
+        az acr login --name orstedlabacr
 
-    - name: Deploy Helm chart
+    - name: Build and Push correlation-api
       run: |
-        helm upgrade --install corporate-app \
-        ./platform/helm/corporate-app \
-        --namespace orsted-lab
+        docker build \
+        -t orstedlabacr.azurecr.io/correlation-api:v2 \
+        ./corporate-app/correlation-api
+
+        docker push \
+        orstedlabacr.azurecr.io/correlation-api:v2
