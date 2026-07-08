@@ -39,12 +39,3 @@ jobs:
 
         docker push \
         orstedlabacr.azurecr.io/correlation-api:${IMAGE_TAG}
-
-    - name: Deploy Helm chart
-      env:
-        IMAGE_TAG: ${{ github.sha }}
-      run: |
-        helm upgrade --install corporate-app \
-        ./platform/helm/corporate-app \
-        -n orsted-lab \
-        --set correlation.image.tag=${IMAGE_TAG}
