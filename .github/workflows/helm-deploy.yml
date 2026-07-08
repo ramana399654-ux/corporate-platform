@@ -42,7 +42,7 @@ jobs:
 
     - name: Update Helm image tag
       run: |
-        sed -i "s/tag: v1/tag: ${{ github.sha }}/" platform/helm/corporate-app/values.yaml
+        sed -i "/repository: orstedlabacr.azurecr.io\/correlation-api/{n;s/tag:.*/tag: ${{ github.sha }}/}" platform/helm/corporate-app/values.yaml
 
         git config user.name "github-actions"
         git config user.email "github-actions@github.com"
