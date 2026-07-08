@@ -1,0 +1,31 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+
+metadata:
+  name: orsted-ingress
+  namespace: orsted-lab
+
+spec:
+  ingressClassName: nginx
+
+  rules:
+
+  - http:
+
+      paths:
+
+      - path: /correlation
+        pathType: Prefix
+        backend:
+          service:
+            name: correlation-service
+            port:
+              number: 80
+
+      - path: /submission
+        pathType: Prefix
+        backend:
+          service:
+            name: submission-service
+            port:
+              number: 80

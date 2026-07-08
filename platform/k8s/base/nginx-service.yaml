@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+
+metadata:
+  name: nginx-service
+  namespace: orsted-lab
+
+spec:
+
+  selector:
+    app: nginx-gateway
+
+  ports:
+  - port: 80
+    targetPort: 80
+
+  type: LoadBalancer

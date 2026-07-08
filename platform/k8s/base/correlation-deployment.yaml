@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: correlation-api
+  namespace: orsted-lab
+
+spec:
+  replicas: 2
+
+  selector:
+    matchLabels:
+      app: correlation-api
+
+  template:
+    metadata:
+      labels:
+        app: correlation-api
+
+    spec:
+      containers:
+      - name: correlation-api
+        image: orstedlabacr.azurecr.io/correlation-api:v1
+        ports:
+        - containerPort: 8000
+
+      imagePullSecrets:
+      - name: acr-secret

@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: submission-api
+  namespace: orsted-lab
+
+spec:
+  replicas: 2
+
+  selector:
+    matchLabels:
+      app: submission-api
+
+  template:
+    metadata:
+      labels:
+        app: submission-api
+
+    spec:
+      containers:
+      - name: submission-api
+        image: orstedlabacr.azurecr.io/submission-api:v1
+        ports:
+        - containerPort: 8000
+
+      imagePullSecrets:
+      - name: acr-secret

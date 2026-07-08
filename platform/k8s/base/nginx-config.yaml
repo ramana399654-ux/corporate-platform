@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: ConfigMap
+
+metadata:
+  name: nginx-config
+  namespace: orsted-lab
+
+data:
+  nginx.conf: |
+    events {}
+
+    http {
+
+      server {
+
+        listen 80;
+
+        location /correlation {
+
+          proxy_pass http://correlation-service;
+        }
+
+
+        location /submission {
+
+          proxy_pass http://submission-service;
+        }
+
+      }
+    }
