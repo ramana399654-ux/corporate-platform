@@ -1,0 +1,16 @@
+namespace: orsted-lab
+
+images:
+  correlation:
+    repository: orstedlabacr.azurecr.io/correlation-api
+    tag: v1
+
+  submission:
+    repository: orstedlabacr.azurecr.io/submission-api
+    tag: v1
+
+replicaCount: 2
+
+service:
+  port: 80
+  targetPort: 8000

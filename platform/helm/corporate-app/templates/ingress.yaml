@@ -1,0 +1,29 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+
+metadata:
+  name: corporate-app-ingress
+  namespace: {{ .Values.namespace }}
+
+spec:
+  ingressClassName: nginx
+
+  rules:
+  - http:
+      paths:
+
+      - path: /correlation
+        pathType: Prefix
+        backend:
+          service:
+            name: correlation-service
+            port:
+              number: {{ .Values.service.port }}
+
+      - path: /submission
+        pathType: Prefix
+        backend:
+          service:
+            name: submission-service
+            port:
+              number: {{ .Values.service.port }}

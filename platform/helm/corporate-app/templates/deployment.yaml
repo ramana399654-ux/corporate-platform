@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: correlation-api
+  namespace: {{ .Values.namespace }}
+
+spec:
+  replicas: {{ .Values.replicaCount }}
+
+  selector:
+    matchLabels:
+      app: correlation-api
+
+  template:
+    metadata:
+      labels:
+        app: correlation-api
+
+    spec:
+      containers:
+      - name: correlation-api
+        image: "{{ .Values.images.correlation.repository }}:{{ .Values.images.correlation.tag }}"
+        ports:
+        - containerPort: {{ .Values.service.targetPort }}
+
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: submission-api
+  namespace: {{ .Values.namespace }}
+
+spec:
+  replicas: {{ .Values.replicaCount }}
+
+  selector:
+    matchLabels:
+      app: submission-api
+
+  template:
+    metadata:
+      labels:
+        app: submission-api
+
+    spec:
+      containers:
+      - name: submission-api
+        image: "{{ .Values.images.submission.repository }}:{{ .Values.images.submission.tag }}"
+        ports:
+        - containerPort: {{ .Values.service.targetPort }}
