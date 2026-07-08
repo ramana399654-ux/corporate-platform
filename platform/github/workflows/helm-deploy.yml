@@ -1,0 +1,24 @@
+name: Helm Deploy
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Install Helm
+      uses: azure/setup-helm@v4
+
+    - name: Deploy Helm chart
+      run: |
+        helm upgrade --install corporate-app \
+        ./platform/helm/corporate-app \
+        --namespace orsted-lab
